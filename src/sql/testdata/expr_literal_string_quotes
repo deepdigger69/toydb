@@ -18,6 +18,7 @@ AST: Select {
         ],
     },
     from: None,
+    where: None,
 }
 
 Plan: Plan {
