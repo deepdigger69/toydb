@@ -20,6 +20,8 @@ AST: Select {
     ),
     where: None,
     order: [],
+    limit: None,
+    offset: None,
 }
 
 Plan: Plan {
