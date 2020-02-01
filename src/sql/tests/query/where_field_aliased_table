@@ -1,0 +1,256 @@
+Query: SELECT m.id, g.id FROM movies m, genres g WHERE m.id >= 3 AND g.id = 1
+
+AST: Select {
+    select: SelectClause {
+        expressions: [
+            Field(
+                Some(
+                    "m",
+                ),
+                "id",
+            ),
+            Field(
+                Some(
+                    "g",
+                ),
+                "id",
+            ),
+        ],
+        labels: [
+            None,
+            None,
+        ],
+    },
+    from: Some(
+        FromClause {
+            items: [
+                FromItem {
+                    table: "movies",
+                    alias: Some(
+                        "m",
+                    ),
+                    join: None,
+                },
+                FromItem {
+                    table: "genres",
+                    alias: Some(
+                        "g",
+                    ),
+                    join: None,
+                },
+            ],
+        },
+    ),
+    where: Some(
+        WhereClause(
+            Operation(
+                And(
+                    Operation(
+                        GreaterThanOrEqual(
+                            Field(
+                                Some(
+                                    "m",
+                                ),
+                                "id",
+                            ),
+                            Literal(
+                                Integer(
+                                    3,
+                                ),
+                            ),
+                        ),
+                    ),
+                    Operation(
+                        Equal(
+                            Field(
+                                Some(
+                                    "g",
+                                ),
+                                "id",
+                            ),
+                            Literal(
+                                Integer(
+                                    1,
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ),
+    ),
+    order: [],
+    limit: None,
+    offset: None,
+}
+
+Plan: Plan {
+    root: Projection {
+        source: Filter {
+            source: NestedLoopJoin {
+                outer: Scan {
+                    table: "movies",
+                    alias: Some(
+                        "m",
+                    ),
+                },
+                inner: Scan {
+                    table: "genres",
+                    alias: Some(
+                        "g",
+                    ),
+                },
+            },
+            predicate: And(
+                Or(
+                    GreaterThan(
+                        Field(
+                            Some(
+                                "m",
+                            ),
+                            "id",
+                        ),
+                        Constant(
+                            Integer(
+                                3,
+                            ),
+                        ),
+                    ),
+                    Equal(
+                        Field(
+                            Some(
+                                "m",
+                            ),
+                            "id",
+                        ),
+                        Constant(
+                            Integer(
+                                3,
+                            ),
+                        ),
+                    ),
+                ),
+                Equal(
+                    Field(
+                        Some(
+                            "g",
+                        ),
+                        "id",
+                    ),
+                    Constant(
+                        Integer(
+                            1,
+                        ),
+                    ),
+                ),
+            ),
+        },
+        labels: [
+            None,
+            None,
+        ],
+        expressions: [
+            Field(
+                Some(
+                    "m",
+                ),
+                "id",
+            ),
+            Field(
+                Some(
+                    "g",
+                ),
+                "id",
+            ),
+        ],
+    },
+}
+
+Optimized plan: Plan {
+    root: Projection {
+        source: Filter {
+            source: NestedLoopJoin {
+                outer: Scan {
+                    table: "movies",
+                    alias: Some(
+                        "m",
+                    ),
+                },
+                inner: Scan {
+                    table: "genres",
+                    alias: Some(
+                        "g",
+                    ),
+                },
+            },
+            predicate: And(
+                Or(
+                    GreaterThan(
+                        Field(
+                            Some(
+                                "m",
+                            ),
+                            "id",
+                        ),
+                        Constant(
+                            Integer(
+                                3,
+                            ),
+                        ),
+                    ),
+                    Equal(
+                        Field(
+                            Some(
+                                "m",
+                            ),
+                            "id",
+                        ),
+                        Constant(
+                            Integer(
+                                3,
+                            ),
+                        ),
+                    ),
+                ),
+                Equal(
+                    Field(
+                        Some(
+                            "g",
+                        ),
+                        "id",
+                    ),
+                    Constant(
+                        Integer(
+                            1,
+                        ),
+                    ),
+                ),
+            ),
+        },
+        labels: [
+            None,
+            None,
+        ],
+        expressions: [
+            Field(
+                Some(
+                    "m",
+                ),
+                "id",
+            ),
+            Field(
+                Some(
+                    "g",
+                ),
+                "id",
+            ),
+        ],
+    },
+}
+
+Query: SELECT m.id, g.id FROM movies m, genres g WHERE m.id >= 3 AND g.id = 1
+
+Result: ["id", "id"]
+[Integer(3), Integer(1)]
+[Integer(4), Integer(1)]
+[Integer(5), Integer(1)]

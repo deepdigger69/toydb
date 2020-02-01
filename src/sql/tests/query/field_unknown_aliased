@@ -1,0 +1,82 @@
+Query: SELECT movies.id FROM movies AS m
+
+AST: Select {
+    select: SelectClause {
+        expressions: [
+            Field(
+                Some(
+                    "movies",
+                ),
+                "id",
+            ),
+        ],
+        labels: [
+            None,
+        ],
+    },
+    from: Some(
+        FromClause {
+            items: [
+                FromItem {
+                    table: "movies",
+                    alias: Some(
+                        "m",
+                    ),
+                    join: None,
+                },
+            ],
+        },
+    ),
+    where: None,
+    order: [],
+    limit: None,
+    offset: None,
+}
+
+Plan: Plan {
+    root: Projection {
+        source: Scan {
+            table: "movies",
+            alias: Some(
+                "m",
+            ),
+        },
+        labels: [
+            None,
+        ],
+        expressions: [
+            Field(
+                Some(
+                    "movies",
+                ),
+                "id",
+            ),
+        ],
+    },
+}
+
+Optimized plan: Plan {
+    root: Projection {
+        source: Scan {
+            table: "movies",
+            alias: Some(
+                "m",
+            ),
+        },
+        labels: [
+            None,
+        ],
+        expressions: [
+            Field(
+                Some(
+                    "movies",
+                ),
+                "id",
+            ),
+        ],
+    },
+}
+
+Query: SELECT movies.id FROM movies AS m
+
+Result: Value("Unknown field movies.id")
