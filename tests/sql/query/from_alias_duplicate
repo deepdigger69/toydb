@@ -1,0 +1,34 @@
+Query: SELECT * FROM movies a, genres a
+
+AST: Select {
+    select: SelectClause {
+        expressions: [],
+        labels: [],
+    },
+    from: Some(
+        FromClause {
+            items: [
+                Table {
+                    name: "movies",
+                    alias: Some(
+                        "a",
+                    ),
+                },
+                Table {
+                    name: "genres",
+                    alias: Some(
+                        "a",
+                    ),
+                },
+            ],
+        },
+    ),
+    where: None,
+    group_by: None,
+    having: None,
+    order: [],
+    limit: None,
+    offset: None,
+}
+
+Plan: Value("Duplicate table name a")

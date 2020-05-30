@@ -31,44 +31,4 @@ AST: Select {
     offset: None,
 }
 
-Plan: Plan(
-    Order {
-        source: Scan {
-            table: "movies",
-            alias: None,
-            filter: None,
-        },
-        orders: [
-            (
-                Field(
-                    None,
-                    "unknown",
-                ),
-                Ascending,
-            ),
-        ],
-    },
-)
-
-Optimized plan: Plan(
-    Order {
-        source: Scan {
-            table: "movies",
-            alias: None,
-            filter: None,
-        },
-        orders: [
-            (
-                Field(
-                    None,
-                    "unknown",
-                ),
-                Ascending,
-            ),
-        ],
-    },
-)
-
-Query: SELECT * FROM movies ORDER BY unknown
-
-Result: Value("Unknown field unknown")
+Plan: Value("Unknown field unknown")
