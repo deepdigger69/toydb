@@ -88,12 +88,7 @@ Plan: Plan(
             (
                 Field(
                     0,
-                    Some(
-                        (
-                            None,
-                            "title",
-                        ),
-                    ),
+                    None,
                 ),
                 Ascending,
             ),
@@ -142,12 +137,7 @@ Optimized plan: Plan(
             (
                 Field(
                     0,
-                    Some(
-                        (
-                            None,
-                            "title",
-                        ),
-                    ),
+                    None,
                 ),
                 Ascending,
             ),

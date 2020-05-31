@@ -141,12 +141,7 @@ Plan: Plan(
             predicate: GreaterThan(
                 Field(
                     1,
-                    Some(
-                        (
-                            None,
-                            "rating",
-                        ),
-                    ),
+                    None,
                 ),
                 Constant(
                     Integer(
@@ -159,12 +154,7 @@ Plan: Plan(
             (
                 Field(
                     0,
-                    Some(
-                        (
-                            None,
-                            "studio_id",
-                        ),
-                    ),
+                    None,
                 ),
                 Ascending,
             ),
@@ -236,12 +226,7 @@ Optimized plan: Plan(
             predicate: GreaterThan(
                 Field(
                     1,
-                    Some(
-                        (
-                            None,
-                            "rating",
-                        ),
-                    ),
+                    None,
                 ),
                 Constant(
                     Integer(
@@ -254,12 +239,7 @@ Optimized plan: Plan(
             (
                 Field(
                     0,
-                    Some(
-                        (
-                            None,
-                            "studio_id",
-                        ),
-                    ),
+                    None,
                 ),
                 Ascending,
             ),
