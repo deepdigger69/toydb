@@ -1,5 +1,5 @@
 Query: DROP TABLE a
-Result: DropTable { name: "a" }
+Result: DropTable { name: "a", existed: true }
 
 Storage:
 CREATE TABLE b (
