@@ -1,4 +1,6 @@
-# Appends with a base beyond the node's last log entry work.
+# Appends with a base beyond the node's last log entry should result in a
+# rejection at the index following the last entry, and the leader appending
+# the tail of the log.
 
 cluster nodes=3 leader=1
 ---
@@ -14,64 +16,58 @@ n3 ⇹ n1 n2
 # Replicate a couple of writes.
 (put 1 a=1)
 (put 1 b=2)
+(put 1 c=3)
 (stabilize heartbeat=true)
 status
 ---
-n1@1 leader last=3@1 commit=3@1 apply=3 progress={2:3→4 3:1→2}
-n2@1 follower(n1) last=3@1 commit=3@1 apply=3
-n3@1 follower(n1) last=1@1 commit=1@1 apply=1
-
-# Elect n2 as a new leader.
-(campaign 2)
-(stabilize heartbeat=true)
-status
----
-n1@2 follower(n2) last=4@2 commit=4@2 apply=4
-n2@2 leader last=4@2 commit=4@2 apply=4 progress={1:4→5 3:0→4}
+n1@1 leader last=4@1 commit=4@1 apply=4 progress={2:4→5 3:1→5}
+n2@1 follower(n1) last=4@1 commit=4@1 apply=4
 n3@1 follower(n1) last=1@1 commit=1@1 apply=1
 
 # Heal the partition, and propose another write.
 heal
-put 2 c=3
+put 1 c=3
 ---
 n1 n2 n3 fully connected
-c2@2 → n2 ClientRequest id=0x03 write 0x0101630133
-n2@2 append 5@2 put c=3
-n2@2 → n1 Append base=4@2 [5@2]
-n2@2 → n3 Append base=3@1 [4@2 5@2]
+c1@1 → n1 ClientRequest id=0x04 write 0x0101630133
+n1@1 append 5@1 put c=3
+n1@1 → n2 Append base=4@1 [5@1]
+n1@1 → n3 Append base=4@1 [5@1]
 
-# The 3@1 base is beyond n3's last index 1@1, so the append is rejected.
+# The 4@1 base is beyond n3's last index 1@1, so the append is rejected.
+# However, the follower returns reject_index=2 immediately after its
+# last index, rather than the original base index 4.
 deliver 3
 ---
-n3@1 follower(n1) ⇨ n3@2 follower(n2)
-n3@2 → n2 AppendResponse last=1@1 reject=3
+n3@1 → n1 AppendResponse reject_index=2
 
-# n2 tries replicating using n3's last index as a base, which succeeds.
-deliver 2
-status 2
+# Because index 1 is already matched with the leader, it doesn't have to probe
+# and simply sends the entire tail, which is accepted.
+deliver 1
+status 1
 ---
-n2@2 → n3 Append base=1@1 [2@1 3@1 4@2 5@2]
-n2@2 leader last=5@2 commit=4@2 apply=4 progress={1:4→5 3:0→2}
+n1@1 → n3 Append base=1@1 [2@1 3@1 4@1 5@1]
+n1@1 leader last=5@1 commit=4@1 apply=4 progress={2:4→6 3:1→6}
 
 deliver 3
 ---
-n3@2 append 2@1 put a=1
-n3@2 append 3@1 put b=2
-n3@2 append 4@2 None
-n3@2 append 5@2 put c=3
-n3@2 → n2 AppendResponse last=5@2 reject=0
+n3@1 append 2@1 put a=1
+n3@1 append 3@1 put b=2
+n3@1 append 4@1 put c=3
+n3@1 append 5@1 put c=3
+n3@1 → n1 AppendResponse match_index=5
 
-# When n2 receives the ack, it commits and applies the write.
-deliver 2
+# When n1 receives the ack, it commits and applies the write.
+deliver 1
 ---
-n2@2 commit 5@2
-n2@2 apply 5@2 put c=3
-n2@2 → c2 ClientResponse id=0x03 write 0x0105
-c2@2 put c=3 ⇒ 5
+n1@1 commit 5@1
+n1@1 apply 5@1 put c=3
+n1@1 → c1 ClientResponse id=0x04 write 0x0105
+c1@1 put c=3 ⇒ 5
 
 # The progress is also updated.
 status
 ---
-n1@2 follower(n2) last=4@2 commit=4@2 apply=4
-n2@2 leader last=5@2 commit=5@2 apply=5 progress={1:4→5 3:5→6}
-n3@2 follower(n2) last=5@2 commit=1@1 apply=1
+n1@1 leader last=5@1 commit=5@1 apply=5 progress={2:4→6 3:5→6}
+n2@1 follower(n1) last=4@1 commit=4@1 apply=4
+n3@1 follower(n1) last=5@1 commit=1@1 apply=1

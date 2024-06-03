@@ -16,7 +16,7 @@ n2@1 follower(n1) last=2@1 commit=2@1 apply=2
 n3@1 follower(n1) last=2@1 commit=2@1 apply=2
 
 # Step a heartbeat with an outdated commit index.
-step 2 '{"from":1, "to":2, "term":1, "message":{"Heartbeat":{"commit_index":1,"commit_term":1,"read_seq":0}}}'
+step 2 '{"from":1, "to":2, "term":1, "message":{"Heartbeat":{"last_index":2,"commit_index":1,"commit_term":1,"read_seq":0}}}'
 stabilize
 ---
-n2@1 → n1 HeartbeatResponse last=2@1 read_seq=0
+n2@1 → n1 HeartbeatResponse match_index=2 read_seq=0
