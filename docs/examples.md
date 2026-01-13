@@ -20,7 +20,7 @@ To start a five-node cluster on the local machine (requires a working
 [Rust compiler](https://www.rust-lang.org/tools/install)), run:
 
 ```
-$ ./cluster/run.rs
+$ ./cluster/run.sh
 toydb2 19:06:28 [ INFO] Listening on 0.0.0.0:9602 (SQL) and 0.0.0.0:9702 (Raft)
 toydb2 19:06:28 [ERROR] Failed connecting to Raft peer 127.0.0.1:9705: Connection refused
 toydb5 19:06:28 [ INFO] Listening on 0.0.0.0:9605 (SQL) and 0.0.0.0:9705 (Raft)
