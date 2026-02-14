@@ -25,13 +25,13 @@ itertools = "0.14"
 log = "0.4"
 petname = "2.0.2"
 rand = "0.10"
-regex = "1.10"
+regex = "1.12"
 rustyline = "17.0"
 rustyline-derive = "0.11"
 serde = { version = "1.0", features = ["derive"] }
 serde_bytes = "0.11"
 simplelog = "0.12"
-uuid = { version = "1.8", features = ["serde", "v4"] }
+uuid = { version = "1.21", features = ["serde", "v4"] }
 
 [dev-dependencies]
 escargot = "0.5"
@@ -39,6 +39,6 @@ goldenscript = "0.7"
 hex = "0.4"
 paste = "1.0"
 serde_json = "1.0"
-tempfile = "3.10"
+tempfile = "3.25"
 test-case = "3.3"
 test_each_file = "0.3"
