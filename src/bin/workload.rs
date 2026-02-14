@@ -451,7 +451,7 @@ impl Workload for Bank {
             "INSERT INTO account VALUES {}",
             (1..=self.customers)
                 .flat_map(|c| (1..=self.accounts).map(move |a| (c, (c - 1) * self.accounts + a)))
-                .map(|(c, a)| (format!("({}, {}, {})", a, c, self.balance)))
+                .map(|(c, a)| format!("({}, {}, {})", a, c, self.balance))
                 .join(", ")
         ))?;
         client.execute("COMMIT")?;
