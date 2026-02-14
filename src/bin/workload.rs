@@ -16,10 +16,10 @@ use std::time::{Duration, Instant};
 use clap::Parser;
 use hdrhistogram::Histogram;
 use itertools::Itertools as _;
-use petname::Generator as _;
 use rand::SeedableRng as _;
 use rand::distr::Distribution as _;
 use rand::rngs::StdRng;
+use rand::seq::IndexedRandom as _;
 
 use toydb::error::Result;
 use toydb::sql::types::{Row, Rows};
@@ -435,7 +435,15 @@ impl Workload for Bank {
         client.execute(&format!(
             "INSERT INTO customer VALUES {}",
             (1..=self.customers)
-                .zip(petnames.iter(rng, 3, " "))
+                .map(|id| {
+                    let name = [
+                        *petnames.adverbs.choose(rng).expect("no adverb"),
+                        *petnames.adjectives.choose(rng).expect("no adjective"),
+                        *petnames.nouns.choose(rng).expect("no noun"),
+                    ]
+                    .join(" ");
+                    (id, name)
+                })
                 .map(|(id, name)| format!("({}, '{}')", id, name))
                 .join(", ")
         ))?;

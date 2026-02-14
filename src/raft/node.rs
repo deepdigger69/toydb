@@ -5,7 +5,7 @@ use std::ops::Range;
 use crossbeam::channel::Sender;
 use itertools::Itertools as _;
 use log::{debug, info};
-use rand::Rng as _;
+use rand::RngExt as _;
 
 use super::log::{Index, Log};
 use super::message::{Envelope, Message, ReadSequence, Request, RequestID, Response, Status};

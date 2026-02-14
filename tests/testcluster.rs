@@ -1,9 +1,11 @@
-use rand::Rng;
 use std::collections::BTreeMap;
 use std::error::Error;
 use std::fmt::Write as _;
 use std::path::Path;
 use std::time::Duration;
+
+use rand::RngExt as _;
+
 use toydb::Client;
 use toydb::raft::NodeID;
 

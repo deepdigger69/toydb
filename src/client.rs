@@ -2,7 +2,7 @@ use std::io::{BufReader, BufWriter, Write as _};
 use std::net::{TcpStream, ToSocketAddrs};
 use std::time::Duration;
 
-use rand::Rng as _;
+use rand::RngExt as _;
 
 use crate::encoding::Value as _;
 use crate::errdata;
