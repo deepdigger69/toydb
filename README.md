@@ -184,3 +184,8 @@ library 'toydb'".
 
 The toyDB logo is courtesy of [@jonasmerlin](https://github.com/jonasmerlin).First feature update
 Second feature update
+
+## Contributing
+
+Contributions are welcome. Before submitting a pull request,
+please describe your changes and include relevant tests.
